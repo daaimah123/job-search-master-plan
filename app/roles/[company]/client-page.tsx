@@ -11,20 +11,29 @@ export default function DynamicRolePage() {
   const params = useParams()
   const searchParams = useSearchParams()
   const company = params.company as string
-  const jobTitle = searchParams.get("title") || "Role"
-  const companyName = searchParams.get("company") || company
-  const success = searchParams.get("success")
+  // const success = searchParams.get("success")
+  const [jobTitle, setJobTitle] = useState("Role")
+  const [companyName, setCompanyName] = useState(company)
   const [showSuccess, setShowSuccess] = useState(false)
 
-  useEffect(() => {
-    if (success === "true") {
-      setShowSuccess(true)
-      const timer = setTimeout(() => {
-        setShowSuccess(false)
-      }, 5000)
-      return () => clearTimeout(timer)
-    }
-  }, [success])
+// Handle search params only on the client side
+useEffect(() => {
+  const searchParams = new URLSearchParams(window.location.search)
+  const titleParam = searchParams.get("title")
+  const companyParam = searchParams.get("company")
+  const successParam = searchParams.get("success")
+  
+  if (titleParam) setJobTitle(titleParam)
+  if (companyParam) setCompanyName(companyParam)
+  
+  if (successParam === "true") {
+    setShowSuccess(true)
+    const timer = setTimeout(() => {
+      setShowSuccess(false)
+    }, 5000)
+    return () => clearTimeout(timer)
+  }
+}, [company])
 
   // Check if this is one of our predefined companies
   const isPredefined = ["intuit", "datadog"].includes(company)

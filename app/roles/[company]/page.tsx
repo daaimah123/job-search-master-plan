@@ -1,3 +1,5 @@
+// This is a Server Component (no "use client" directive)
+
 import { JSX } from 'react';
 import DynamicRolePageClient from './client-page';
 
