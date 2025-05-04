@@ -10,14 +10,18 @@ import { useEffect, useState } from "react"
 export default function DynamicRolePage() {
   const params = useParams()
   const searchParams = useSearchParams()
-  const company = params.company as string
+  const company = params.company as string || ""
   // const success = searchParams.get("success")
+  const isStaticExport = process.env.STATIC_EXPORT === 'true'; // Check if we're in static export mode
   const [jobTitle, setJobTitle] = useState("Role")
-  const [companyName, setCompanyName] = useState(company)
+  const [companyName, setCompanyName] = useState(company || "")
   const [showSuccess, setShowSuccess] = useState(false)
 
-// Handle search params only on the client side
+// Only use searchParams in non-static mode
 useEffect(() => {
+  // Skip this effect in static export mode
+  if (isStaticExport) return;
+
   const searchParams = new URLSearchParams(window.location.search)
   const titleParam = searchParams.get("title")
   const companyParam = searchParams.get("company")
@@ -33,7 +37,7 @@ useEffect(() => {
     }, 5000)
     return () => clearTimeout(timer)
   }
-}, [company])
+}, [isStaticExport, company])
 
   // Check if this is one of our predefined companies
   const isPredefined = ["intuit", "datadog"].includes(company)
@@ -51,7 +55,8 @@ useEffect(() => {
           </Link>
         </div>
 
-        {showSuccess && (
+        {/* Only show success message in non-static mode */}
+        {!isStaticExport && showSuccess && (
           <div className="mb-6 bg-green-50 border border-green-200 rounded-md p-4 flex items-center gap-3">
             <div className="h-5 w-5 text-green-500">✓</div>
             <p className="text-green-800">Your role strategy has been successfully created!</p>

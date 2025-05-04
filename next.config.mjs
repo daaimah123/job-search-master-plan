@@ -18,6 +18,10 @@ const nextConfig = {
   basePath: process.env.NODE_ENV === 'production' ? '/job-search-master-plan' : '',
   assetPrefix: process.env.NODE_ENV === 'production' ? '/job-search-master-plan/' : '',
   trailingSlash: true, // Recommended for GitHub Pages
+  // Disable dynamic features for static export
+  env: {
+    STATIC_EXPORT: 'true',
+  },
 }
 
 export default nextConfig
