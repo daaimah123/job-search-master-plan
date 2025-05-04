@@ -5,7 +5,7 @@
 
 ## What is this magical tool? ✨
 
-Job Search Master Plan Strategy is a personalized application for creating tailored career strategies with role-specific implementation plans, case studies, and accelerated application timelines based on my professional accomplishments and experiences. This application serves as my personal career development tool, leveraging my professional accomplishments, metrics, and self-reflections to generate customized career strategies for specific roles and companies. It combines structured data with AI-powered analysis to create comprehensive master plans that align my experience with potential employers' needs.
+[Job Search Master Plan Strategy](https://job-search-master-plan.vercel.app/roles) is a personalized application for creating tailored career strategies with role-specific implementation plans, case studies, and accelerated application timelines based on my professional accomplishments and experiences. This application serves as my personal career development tool, leveraging my professional accomplishments, metrics, and self-reflections to generate customized career strategies for specific roles and companies. It combines structured data with AI-powered analysis to create comprehensive master plans that align my experience with potential employers' needs.
 
 ## Features that make you go "Wow!" 🤩
 
