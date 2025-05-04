@@ -128,6 +128,24 @@ export default function DatadogFuturePage() {
     },
   ]
 
+  // Transform the implementation steps data to match what ImplementationPlan expects
+  const transformPlanData = (planData: any[], title: string, description: string, startDate: string) => {
+    return {
+      title: title,
+      description: description,
+      startDate: startDate,
+      milestones: planData.map((item: { title: any; description: any; timeline: any; tasks: any[] }) => ({
+        title: item.title,
+        description: item.description,
+        deadline: item.timeline,
+        tasks: item.tasks.map((task: any) => ({
+          name: task,
+          completed: false
+        }))
+      }))
+    };
+  };
+
   return (
     <div className="container mx-auto py-6 space-y-6">
       <Card>
@@ -151,8 +169,8 @@ export default function DatadogFuturePage() {
                   <FuturePathCard
                     key={index}
                     title={path.title}
-                    timeframe={path.timeframe}
                     description={path.description}
+                    timeframe={path.timeframe}
                     keyMetrics={path.keyMetrics}
                   />
                 ))}
@@ -165,8 +183,8 @@ export default function DatadogFuturePage() {
                   <FuturePathCard
                     key={index}
                     title={skill.title}
-                    timeframe={skill.timeframe}
                     description={skill.description}
+                    timeframe={skill.timeframe}
                     keyMetrics={skill.keyMetrics}
                   />
                 ))}
@@ -174,7 +192,14 @@ export default function DatadogFuturePage() {
             </TabsContent>
 
             <TabsContent value="implementation-plan" className="pt-4">
-              <ImplementationPlan steps={implementationSteps} />
+              <ImplementationPlan 
+                {...transformPlanData(
+                  implementationSteps, 
+                  "CAREER DEVELOPMENT", 
+                  "Strategic implementation plan for your career growth at Datadog", 
+                  "Immediately"
+                )}
+              />
             </TabsContent>
           </Tabs>
         </CardContent>

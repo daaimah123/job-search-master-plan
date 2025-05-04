@@ -16,6 +16,9 @@ interface FuturePathCardProps {
   entryPoints?: string[]
   exampleRole?: ExampleRole
   roleFocus?: string[]
+  // Add the new properties
+  timeframe?: string
+  keyMetrics?: string[]
 }
 
 export default function FuturePathCard({
@@ -27,6 +30,8 @@ export default function FuturePathCard({
   entryPoints = [],
   exampleRole,
   roleFocus = [],
+  timeframe,
+  keyMetrics = [],
 }: FuturePathCardProps) {
   return (
     <Card className="h-full">
@@ -35,6 +40,14 @@ export default function FuturePathCard({
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-gray-700">{description}</p>
+
+        {/* Display timeframe if provided */}
+        {timeframe && (
+          <div>
+            <h3 className="font-semibold mb-2">Timeframe:</h3>
+            <p className="text-gray-700">{timeframe}</p>
+          </div>
+        )}
 
         {targetOrganizations.length > 0 && (
           <div>
@@ -122,6 +135,20 @@ export default function FuturePathCard({
               {roleFocus.map((focus, index) => (
                 <li key={index} className="text-gray-700">
                   {focus}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Display keyMetrics if provided */}
+        {keyMetrics.length > 0 && (
+          <div>
+            <h3 className="font-semibold mb-2">Key Metrics:</h3>
+            <ul className="list-disc pl-5 space-y-1">
+              {keyMetrics.map((metric, index) => (
+                <li key={index} className="text-gray-700">
+                  {metric}
                 </li>
               ))}
             </ul>

@@ -3,8 +3,8 @@
 import { useState } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import ImplementationPlan from "@/components/implementation-plan"
-import { CheckCircle, Calendar, Users } from "lucide-react"
+import ImplementationPlan from "@/components/implementation-plan" // Changed to default import
+import { CheckCircle, Calendar, Users } from 'lucide-react'
 
 export default function DatadogNextStepsPage() {
   const [activeTab, setActiveTab] = useState("recommendations")
@@ -211,6 +211,24 @@ export default function DatadogNextStepsPage() {
     },
   ]
 
+  // Transform the data to match what ImplementationPlan expects
+  const transformPlanData = (planData: any[], title: string, description: string, startDate: string) => {
+    return {
+      title: title,
+      description: description,
+      startDate: startDate,
+      milestones: planData.map((item: { title: any; description: any; timeline: any; tasks: any[] }) => ({
+        title: item.title,
+        description: item.description,
+        deadline: item.timeline,
+        tasks: item.tasks.map((task: any) => ({
+          name: task,
+          completed: false
+        }))
+      }))
+    };
+  };
+
   return (
     <div className="container mx-auto py-6 space-y-6">
       <Card>
@@ -232,31 +250,66 @@ export default function DatadogNextStepsPage() {
                   <h3 className="text-xl font-semibold flex items-center text-blue-700 mb-4">
                     <CheckCircle className="mr-2 h-5 w-5" /> First 30 Days: Foundation Building
                   </h3>
-                  <ImplementationPlan steps={thirtyDayPlan} />
+                  <ImplementationPlan 
+                    {...transformPlanData(
+                      thirtyDayPlan, 
+                      "30-DAY", 
+                      "Your first 30 days at Datadog", 
+                      "Upon hiring"
+                    )}
+                  />
                 </div>
 
                 <div>
                   <h3 className="text-xl font-semibold flex items-center text-blue-700 mb-4">
                     <Calendar className="mr-2 h-5 w-5" /> Days 31-60: Developing Expertise
                   </h3>
-                  <ImplementationPlan steps={sixtyDayPlan} />
+                  <ImplementationPlan 
+                    {...transformPlanData(
+                      sixtyDayPlan, 
+                      "60-DAY", 
+                      "Days 31-60 at Datadog", 
+                      "Day 31"
+                    )}
+                  />
                 </div>
 
                 <div>
                   <h3 className="text-xl font-semibold flex items-center text-blue-700 mb-4">
                     <Users className="mr-2 h-5 w-5" /> Days 61-90: Demonstrating Impact
                   </h3>
-                  <ImplementationPlan steps={ninetyDayPlan} />
+                  <ImplementationPlan 
+                    {...transformPlanData(
+                      ninetyDayPlan, 
+                      "90-DAY", 
+                      "Days 61-90 at Datadog", 
+                      "Day 61"
+                    )}
+                  />
                 </div>
               </div>
             </TabsContent>
 
             <TabsContent value="interview-prep" className="pt-4">
-              <ImplementationPlan steps={interviewPrepSteps} />
+              <ImplementationPlan 
+                {...transformPlanData(
+                  interviewPrepSteps, 
+                  "INTERVIEW PREP", 
+                  "Steps to prepare for your Datadog interviews", 
+                  "2-3 weeks before interview"
+                )}
+              />
             </TabsContent>
 
             <TabsContent value="implementation-plan" className="pt-4">
-              <ImplementationPlan steps={implementationPlanSteps} />
+              <ImplementationPlan 
+                {...transformPlanData(
+                  implementationPlanSteps, 
+                  "IMPLEMENTATION", 
+                  "Executing your Datadog interview strategy", 
+                  "Immediately"
+                )}
+              />
             </TabsContent>
           </Tabs>
         </CardContent>
