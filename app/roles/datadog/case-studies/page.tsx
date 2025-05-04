@@ -1,11 +1,84 @@
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft } from 'lucide-react'
 import Link from "next/link"
 import CaseStudyDetail from "@/components/case-study-detail"
 import ImplementationPlan from "@/components/implementation-plan"
 
 export default function CaseStudiesPage() {
+  // Transform the implementation steps data to match what ImplementationPlan expects
+  const transformPlanData = (planData: any[], title: any, description: any, startDate: any) => {
+    return {
+      title: title,
+      description: description,
+      startDate: startDate,
+      milestones: planData.map((item: { title: any; description: any; timeline: any; tasks: any[] }) => ({
+        title: item.title,
+        description: item.description,
+        deadline: item.timeline,
+        tasks: item.tasks.map((task: any) => ({
+          name: task,
+          completed: false
+        }))
+      }))
+    };
+  };
+
+  const implementationPlanData = {
+    title: "CASE STUDIES DEVELOPMENT",
+    description: "Refining and enhancing your case studies to effectively demonstrate your value to Datadog.",
+    startDate: "May 5, 2025",
+    milestones: [
+      {
+        title: "Metrics Enhancement",
+        description: "Gather additional quantifiable metrics for each case study",
+        deadline: "May 14, 2025",
+        tasks: [
+          { name: "Calculate skill growth metrics from Techtonica programs", completed: false },
+          { name: "Document technical documentation improvement metrics", completed: false },
+          { name: "Quantify cross-functional collaboration improvements", completed: false },
+          { name: "Measure engineering enablement success rates", completed: false },
+        ],
+      },
+      {
+        title: "Datadog-Specific Adaptation",
+        description: "Adapt case studies to specifically address Datadog's challenges",
+        deadline: "May 21, 2025",
+        tasks: [
+          { name: "Map each case study to specific Datadog challenges", completed: false },
+          {
+            name: "Research Datadog's observability platform to create relevant connections",
+            completed: false,
+          },
+          { name: "Update talking points with Datadog-specific language", completed: false },
+          { name: "Create Datadog-focused business impact statements", completed: false },
+        ],
+      },
+      {
+        title: "Visual Representation",
+        description: "Create visual assets to support case study presentation",
+        deadline: "May 28, 2025",
+        tasks: [
+          { name: "Develop before/after diagrams for each case study", completed: false },
+          { name: "Create metric visualization charts", completed: false },
+          { name: "Design process flow diagrams showing your approach", completed: false },
+          { name: "Prepare one-page visual summaries for each case study", completed: false },
+        ],
+      },
+      {
+        title: "Delivery Preparation",
+        description: "Prepare for effective delivery of case studies in interviews",
+        deadline: "June 4, 2025",
+        tasks: [
+          { name: "Practice concise verbal delivery of each case study", completed: false },
+          { name: "Prepare answers to likely follow-up questions", completed: false },
+          { name: "Create transition statements between case studies", completed: false },
+          { name: "Develop tailored versions for different interview formats", completed: false },
+        ],
+      },
+    ]
+  };
+
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
       <div className="mb-6">
@@ -51,7 +124,15 @@ export default function CaseStudiesPage() {
               "Created 200+ hours of engineering curriculum covering full-stack development, databases, and cloud technologies",
               "Developed 15+ standardized rubrics for consistent evaluation of technical skills across cohorts",
             ]}
-            relevance="This experience directly relates to Datadog's need for effective engineering knowledge transfer and standardized approaches to engineering education. The curriculum development methodologies and evaluation frameworks I created can be adapted to Datadog's engineering enablement initiatives, ensuring consistent quality across different teams while accommodating diverse learning needs. My experience integrating new technologies (like AI) into existing curriculum frameworks demonstrates my ability to keep educational content aligned with emerging engineering practices."
+            impact="This curriculum development work resulted in a significant increase in program effectiveness and participant outcomes, with measurable improvements in technical skill acquisition and job placement rates."
+            connection={[
+              "Datadog needs effective engineering knowledge transfer systems",
+              "Standardized approaches to engineering education ensure consistent quality",
+              "Ability to adapt curriculum to new technologies is essential for Datadog's evolving platform",
+              "Experience creating evaluation frameworks translates directly to Datadog's need for quality assurance",
+              "Modular curriculum architecture can be applied to Datadog's diverse product training needs"
+            ]}
+            talkingPoints="When discussing this case study, I emphasize my systematic approach to curriculum development, focusing on how I balanced technical depth with accessibility. I highlight the measurable outcomes and my ability to iterate based on feedback, which demonstrates my data-driven approach to educational design. I can also discuss how I identified and addressed knowledge gaps, a skill that would be valuable in Datadog's engineering enablement initiatives."
           />
         </TabsContent>
 
@@ -73,7 +154,15 @@ export default function CaseStudiesPage() {
               "Created a library of 25+ real-world examples demonstrating practical applications of marketing tools",
               "Established documentation standards that were adopted across three additional departments",
             ]}
-            relevance="This experience addresses Datadog's need for high-quality technical documentation that serves both internal engineering teams and external developers. My approach to creating user-centered documentation that anticipates questions and provides contextual examples can be applied to Datadog's observability platform documentation. The significant reduction in support tickets and increased feature adoption demonstrates the business impact of effective technical documentation, directly addressing Datadog's challenge of maintaining comprehensive documentation for their complex systems."
+            impact="The improved documentation significantly reduced operational friction, allowing both technical and non-technical teams to work more efficiently and effectively with the company's internal tools."
+            connection={[
+              "Datadog requires high-quality technical documentation for both internal and external users",
+              "Experience reducing support tickets through better documentation directly addresses Datadog's scale challenges",
+              "User-centered documentation approach aligns with Datadog's focus on user experience",
+              "Documentation templates and standards can be applied to Datadog's complex product ecosystem",
+              "Demonstrated ability to translate technical concepts for non-technical audiences is essential for Datadog's diverse user base"
+            ]}
+            talkingPoints="In discussing this case study, I emphasize my user-centered approach to documentation, highlighting how I identified and addressed pain points through systematic analysis. I focus on the measurable business impact of improved documentation, including reduced support costs and increased feature adoption. I can also discuss my process for creating documentation templates that ensure consistency and completeness, which would be valuable for Datadog's complex product ecosystem."
           />
         </TabsContent>
 
@@ -95,64 +184,19 @@ export default function CaseStudiesPage() {
               "Maintained technical accuracy while improving accessibility of materials for non-technical audiences",
               "Created a cross-functional collaboration framework that was adopted for 3 subsequent major initiatives",
             ]}
-            relevance="This experience directly addresses Datadog's need for cross-functional technical alignment. At Datadog, you'll need to coordinate between engineering teams, product managers, and technical writers to ensure consistent and accurate technical education materials. My proven ability to facilitate effective communication between technical and non-technical stakeholders will help bridge the gap between Datadog's engineering expertise and educational needs. The measurable improvements in collaboration efficiency demonstrate my ability to create synergy between different functional areas, which is essential for Datadog's engineering enablement initiatives."
+            impact="This collaborative approach not only ensured the successful completion of a critical company initiative but also established new standards for cross-functional work that continued to benefit the organization long after the rebranding project."
+            connection={[
+              "Datadog requires effective coordination between engineering, product, and customer-facing teams",
+              "Experience facilitating technical communication across diverse stakeholders is directly applicable",
+              "Project management under tight deadlines demonstrates ability to deliver in Datadog's fast-paced environment",
+              "Documentation systems that capture decisions and rationale align with Datadog's need for knowledge sharing",
+              "Proven ability to maintain technical accuracy while improving accessibility addresses Datadog's communication challenges"
+            ]}
+            talkingPoints="When discussing this case study, I highlight my ability to bridge communication gaps between technical and non-technical stakeholders, emphasizing how I created systems that improved collaboration efficiency. I focus on the measurable improvements in cross-team understanding and the lasting impact of the collaboration framework I developed. I can also discuss specific techniques I used to translate complex technical concepts into accessible language, which would be valuable for Datadog's engineering enablement initiatives."
           />
         </TabsContent>
         <TabsContent value="implementation">
-          <ImplementationPlan
-            title="CASE STUDIES DEVELOPMENT"
-            description="Refining and enhancing your case studies to effectively demonstrate your value to Datadog."
-            startDate="May 5, 2025"
-            milestones={[
-              {
-                title: "Metrics Enhancement",
-                description: "Gather additional quantifiable metrics for each case study",
-                deadline: "May 14, 2025",
-                tasks: [
-                  { name: "Calculate skill growth metrics from Techtonica programs", completed: false },
-                  { name: "Document technical documentation improvement metrics", completed: false },
-                  { name: "Quantify cross-functional collaboration improvements", completed: false },
-                  { name: "Measure engineering enablement success rates", completed: false },
-                ],
-              },
-              {
-                title: "Datadog-Specific Adaptation",
-                description: "Adapt case studies to specifically address Datadog's challenges",
-                deadline: "May 21, 2025",
-                tasks: [
-                  { name: "Map each case study to specific Datadog challenges", completed: false },
-                  {
-                    name: "Research Datadog's observability platform to create relevant connections",
-                    completed: false,
-                  },
-                  { name: "Update talking points with Datadog-specific language", completed: false },
-                  { name: "Create Datadog-focused business impact statements", completed: false },
-                ],
-              },
-              {
-                title: "Visual Representation",
-                description: "Create visual assets to support case study presentation",
-                deadline: "May 28, 2025",
-                tasks: [
-                  { name: "Develop before/after diagrams for each case study", completed: false },
-                  { name: "Create metric visualization charts", completed: false },
-                  { name: "Design process flow diagrams showing your approach", completed: false },
-                  { name: "Prepare one-page visual summaries for each case study", completed: false },
-                ],
-              },
-              {
-                title: "Delivery Preparation",
-                description: "Prepare for effective delivery of case studies in interviews",
-                deadline: "June 4, 2025",
-                tasks: [
-                  { name: "Practice concise verbal delivery of each case study", completed: false },
-                  { name: "Prepare answers to likely follow-up questions", completed: false },
-                  { name: "Create transition statements between case studies", completed: false },
-                  { name: "Develop tailored versions for different interview formats", completed: false },
-                ],
-              },
-            ]}
-          />
+          <ImplementationPlan {...implementationPlanData} />
         </TabsContent>
       </Tabs>
     </div>
