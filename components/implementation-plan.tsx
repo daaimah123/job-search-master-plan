@@ -24,7 +24,7 @@ interface ImplementationPlanProps {
 }
 
 export default function ImplementationPlan({ title, description, startDate, milestones }: ImplementationPlanProps) {
-  // This would be connected to state management in a real app
+  
   const [tasks, setTasks] = useState<Record<string, Record<string, boolean>>>(
     milestones.reduce(
       (acc, milestone, mIndex) => {
